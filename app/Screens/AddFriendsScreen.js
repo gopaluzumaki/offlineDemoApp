@@ -39,23 +39,33 @@ class AddFriendsScreen extends Component{
          Alert.alert('Success', 'Added user successsfully')
    }
    render() {
+
+    if(this.props.navigation.getState().routes[1].params!==undefined){
+    var data=this.props.navigation.getState().routes[1].params.data
+    }
+    else{
+       var data=undefined
+    }
       return (
          <View style = {styles.container}>
             <TextInput style = {styles.input}
                underlineColorAndroid = "transparent"
-               placeholder = "First Name"
+               placeholder = {data==undefined?'First Name':''}
                autoCapitalize = "none"
+               value={data?.firstName}
                onChangeText = {this.handleFirstName}/>
             
             <TextInput style = {styles.input}
                underlineColorAndroid = "transparent"
-               placeholder = "Last Name"
+               placeholder = {data==undefined?'Last Name':''}
                autoCapitalize = "none"
+               value={data?.lastName}
                onChangeText = {this.handleSecondName}/>
 			    <TextInput style = {styles.input}
                underlineColorAndroid = "transparent"
-               placeholder = "Age"
+               placeholder = {data==undefined?'age':''}
                autoCapitalize = "none"
+               value={data?.age.toString()}
                onChangeText = {this.handleAge}/>
             
             <TouchableOpacity

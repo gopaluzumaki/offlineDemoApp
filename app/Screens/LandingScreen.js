@@ -1,5 +1,5 @@
 import React,{useEffect} from 'react';
-import {SafeAreaView, Button, FlatList, StyleSheet,Text,TouchableOpacity,Alert} from 'react-native';
+import {SafeAreaView, Button, FlatList, StyleSheet,Text,TouchableOpacity,Alert,View,Image} from 'react-native';
 import { getUsers } from '../actions';
 import {connect} from 'react-redux';
 import UserListItem from '../components/UserListItem';
@@ -21,7 +21,17 @@ const LandingScreen = ({users,getUsers,navigation}) => {
       <FlatList
         data={users}
         keyExtractor={item => item.Id}
-        renderItem={({item}) => <UserListItem item={item} />}
+        renderItem={({item}) =>  <TouchableOpacity onPress={()=>navigation.navigate('AddFriendsScreen',{data:item})}>
+        <View style={styles.container1}>
+          <Image source={{url: 'https://randomuser.me/api/portraits/men/61.jpg'}} style={styles.image} />
+          <View>
+            <Text style={styles.heading}>{item.firstName}{' '}{item.lastName}</Text>
+            <Text></Text>
+            <Text>{'Age:'}{item.age}</Text>
+          </View>
+      
+      </View>
+      </TouchableOpacity>}
         style={styles.list}
         
       />
@@ -40,6 +50,30 @@ const styles = StyleSheet.create({
   },
   list: {
     padding: 10,
+  },
+  container1: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 5,
+    marginLeft:25,
+    marginTop:25
+  },
+  image: {
+    height: 70,
+    width: 70,
+    borderRadius: 35,
+    marginRight: 10,
+  },
+  heading: {
+    fontSize: 15,
+    fontWeight: 'bold',
+  },
+  actionableContainerDivider: {
+    borderTopWidth: 0.5,
+    marginRight: -20,
+    marginLeft:-20,
+    marginBottom:10,
+    marginTop:-15,
   },
 });
 
