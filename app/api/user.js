@@ -11,6 +11,7 @@ const getUsers = async () => {
       firstName: item.First_Name__c,
       lastName: item.Last_Name__c,
       age: item.Age__c,
+      id:item.Id
     };
   });
 

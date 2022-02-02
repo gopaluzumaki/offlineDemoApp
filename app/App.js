@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, SafeAreaView} from 'react-native';
+import {StyleSheet, SafeAreaView,Text} from 'react-native';
 import {connect} from 'react-redux';
 
 import LandingScreen from './Screens/LandingScreen';
@@ -17,14 +17,37 @@ import HomeScreen from "./Screens/HomeScreen";
 import SettingScreen from "./Screens/SettingScreen";
 import AddFriendsScreen from './Screens/AddFriendsScreen';
 
+
 import { NavigationContainer } from '@react-navigation/native';
 import StackNavigator from './StackNavigator';
 
-const App = ({}) => {
+const App = () => {
 
+  
+  const config = {
+    screens: {
+      HomeScreen:'HomeScreen',
+      StackNavigator: {
+        screens: {
+          AddFriendsScreen:{ 
+            path:'AddFriendsScreen/:id',
+          parse: {
+            id: (id) => `${id}`,
+          }
+        }
+        },
+      },
+      SettingScreen: 'SettingScreen',
+    },
+  };
+  
+  const linking = {
+    prefixes: ['myapp://'],
+    config,
+  };
   const TabNavigator = createMaterialBottomTabNavigator(
     {
-      Home: {
+      HomeScreen: {
         screen: HomeScreen,
         navigationOptions: {
           tabBarLabel: "Home",
@@ -37,8 +60,9 @@ const App = ({}) => {
           ),
         },
       },
-      User: {
+      StackNavigator: {
         screen: StackNavigator,
+        path:'StackNavigator',
         navigationOptions: {
           tabBarLabel: "Friends",
           tabBarIcon: (tabInfo) => (
@@ -50,7 +74,7 @@ const App = ({}) => {
           ),
         },
       },
-      Setting: {
+      SettingScreen: {
         screen: SettingScreen,
         navigationOptions: {
           tabBarLabel: "Settings",
@@ -65,18 +89,17 @@ const App = ({}) => {
       },
     },
     {
-      initialRouteName: "Home",
+      initialRouteName: "HomeScreen",
       barStyle: { backgroundColor: "#00bfff" },
     }
   );
     
   const Navigator = createAppContainer(TabNavigator);
-    
 
   return (
     <>
     {/* <DetectOffline /> */}
-<NavigationContainer >
+<NavigationContainer linking={linking}>
   <Navigator />
       </NavigationContainer>
     </>
